@@ -1,0 +1,29 @@
+name: Deploy to GitHub Pages  # Nom du workflow affiché dans GitHub Actions
+
+on:
+  push:
+    branches:
+      - master  # Déclenche le workflow lors d'un push sur la branche "master"
+
+permissions:
+  contents: read      # Autorise la lecture du contenu du dépôt
+  pages: write        # Autorise l'écriture sur GitHub Pages
+  id-token: write     # Autorise la génération de tokens d'identité (pour GitHub Pages)
+
+jobs:
+  deploy:                   # Nom du job principal
+    runs-on: ubuntu-latest  # Utilise la dernière version d'Ubuntu comme machine virtuelle
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Récupère le code source du dépôt
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3  # Configure l'environnement pour GitHub Pages
+
+      - name: Upload site files
+        uses: actions/upload-pages-artifact@v2  # Prépare les fichiers à déployer
+        with:
+          path: ./html  # Chemin du dossier contenant le site à publier (ici le dossier "html")
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2  # Déploie les fichiers sur GitHub Pages
